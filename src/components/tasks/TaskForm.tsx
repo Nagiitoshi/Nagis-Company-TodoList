@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -52,10 +51,10 @@ export function TaskForm({ initialData, onSubmit, isSubmitting }: TaskFormProps)
 
   useEffect(() => {
     if (initialData) {
-      const date = new Date(initialData.dataHora);
+      const date = new Date(initialData.tasksLocalDateTime);
       setDefaultValues({
         name: initialData.name,
-        descricao: initialData.descricao,
+        descricao: initialData.descriptionTask,
         date: date,
         time: format(date, "HH:mm"),
       });
@@ -77,8 +76,8 @@ export function TaskForm({ initialData, onSubmit, isSubmitting }: TaskFormProps)
 
     const taskData: TaskFormData = {
       name: values.name,
-      descricao: values.descricao,
-      dataHora: dateTime.toISOString(),
+      descriptionTask: values.descricao,
+      tasksLocalDateTime: dateTime.toISOString(),
     };
 
     onSubmit(taskData);
@@ -172,7 +171,6 @@ export function TaskForm({ initialData, onSubmit, isSubmitting }: TaskFormProps)
                       type="time"
                       {...field}
                       className="w-full"
-                      defaultValue="12:00"
                     />
                   </FormControl>
                   <Clock className="h-4 w-4 ml-2 text-muted-foreground" />

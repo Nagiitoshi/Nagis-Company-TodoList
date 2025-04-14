@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,9 +19,13 @@ interface TaskCardProps {
 }
 
 export function TaskCard({ task, onDelete }: TaskCardProps) {
-  const taskDate = new Date(task.dataHora);
-  const formattedDate = format(taskDate, "PPP", { locale: pt });
-  const formattedTime = format(taskDate, "HH:mm");
+  // Verificar se task.dataHora é uma data válida
+  const taskDate = new Date(task.tasksLocalDateTime);
+  const isValidDate = !isNaN(taskDate.getTime());
+
+  // Se não for uma data válida, usar um fallback
+  const formattedDate = isValidDate ? format(taskDate, "PPP", { locale: pt }) : "Data inválida";
+  const formattedTime = isValidDate ? format(taskDate, "HH:mm") : "Hora inválida";
 
   return (
     <Card className="w-full">
@@ -36,14 +39,10 @@ export function TaskCard({ task, onDelete }: TaskCardProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">{task.descricao}</p>
+        <p className="text-sm text-muted-foreground">{task.descriptionTask}</p>
       </CardContent>
       <CardFooter className="flex justify-end gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          asChild
-        >
+        <Button variant="outline" size="sm" asChild>
           <Link to={`/edit/${task.id}`}>
             <Edit className="h-4 w-4 mr-1" />
             Editar
@@ -61,3 +60,4 @@ export function TaskCard({ task, onDelete }: TaskCardProps) {
     </Card>
   );
 }
+
